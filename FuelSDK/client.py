@@ -82,6 +82,15 @@ class ET_Client(object):
         else:
             wsdl_server_url = 'https://webservice.exacttarget.com/etframework.wsdl'
 
+        if params is not None and 'baseapiurl' in params:
+            self.base_api_url = params['baseapiurl']
+        elif config.has_option('Web Services', 'baseapiurl'):
+            self.base_api_url = config.get('Web Services', 'baseapiurl')
+        elif 'FUELSDK_BASE_API_URL' in os.environ:
+            self.base_api_url = os.environ['FUELSDK_BASE_API_URL']
+        else:
+            self.base_api_url = 'https://www.exacttargetapis.com'
+
         if params is not None and 'authenticationurl' in params:
             self.auth_url = params['authenticationurl']
         elif config.has_option('Web Services', 'authenticationurl'):
